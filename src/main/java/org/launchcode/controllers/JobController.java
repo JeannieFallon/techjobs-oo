@@ -1,6 +1,6 @@
 package org.launchcode.controllers;
 
-import org.launchcode.models.Job;
+import org.launchcode.models.*;
 import org.launchcode.models.forms.JobForm;
 import org.launchcode.models.data.JobData;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,6 @@ public class JobController {
     public String index(Model model, int id) {
 
         // TODO #1 - get the Job with the given ID and pass it into the view
-        // Cheese cheeseToBeEdited = CheeseData.getbyId(cheeseId);
         Job job = jobData.findById(id);
         model.addAttribute("job", job);
         return "job-detail";
@@ -44,7 +43,57 @@ public class JobController {
         // new Job and add it to the jobData data store. Then
         // redirect to the job detail view for the new Job.
 
-        return "";
+        if(errors.hasErrors()){
+            model.addAttribute("jobForm", jobForm);
+            return "new-job";
+        }
 
+        String newName = jobForm.getName();
+        int employerId = jobForm.getEmployerId();
+        int locationId = jobForm.getLocationId();
+        int positionTypeId = jobForm.getPositionTypeId();
+        int coreCompetencyId = jobForm.getCoreCompetencyId();
+
+        // Is there is a better way to initialize these placeholder objects? null?
+        String defaultVal = "default";
+        Employer newEmployer = new Employer(defaultVal);
+        Location newLocation = new Location(defaultVal);
+        PositionType newPositionType = new PositionType(defaultVal);
+        CoreCompetency newCoreCompetency = new CoreCompetency(defaultVal);
+
+        // Why can't I just declare & initialize object within the loop?
+        for(Employer employer: jobForm.getEmployers()) {
+            if (employer.getId() == jobForm.getEmployerId()) {
+                newEmployer = employer;
+                break;
+            }
+        }
+
+        for(Location location: jobForm.getLocations()) {
+            if (location.getId() == jobForm.getLocationId()) {
+                newLocation = location;
+                break;
+            }
+        }
+
+        for(PositionType positionType: jobForm.getPositionTypes()) {
+            if (positionType.getId() == jobForm.getPositionTypeId()) {
+                newPositionType = positionType;
+                break;
+            }
+        }
+
+        for(CoreCompetency coreCompetency: jobForm.getCoreCompetencies()) {
+            if (coreCompetency.getId() == jobForm.getCoreCompetencyId()) {
+                newCoreCompetency = coreCompetency;
+                break;
+            }
+        }
+
+        Job newJob = new Job(newName, newEmployer, newLocation, newPositionType, newCoreCompetency);
+        jobData.add(newJob);
+
+        int newJobId = newJob.getId();
+        return "redirect:?id=" + newJobId;
     }
 }

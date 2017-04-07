@@ -24,23 +24,20 @@ public class JobForm {
 
     //location
     @NotNull
-    private Location location;
+    private int locationId;
 
     //core competency
     @NotNull
-    private CoreCompetency coreCompetency;
+    private int coreCompetencyId;
 
     //position type
     @NotNull
-    private PositionType positionType;
+    private int positionTypeId;
 
     /*
         TODO #3 - Included other fields needed to create a job,
         with correct validation attributes and display names.
         Don't forget to add getters and setters
-
-        For tasks #3-5, you'll need to mimic the code that's
-        in place for employerId and the employers list.
 
      */
 
@@ -80,28 +77,28 @@ public class JobForm {
         this.employerId = employerId;
     }
 
-    public Location getLocation() {
-        return location;
+    public int getLocationId() {
+        return locationId;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
     }
 
-    public CoreCompetency getCoreCompetency() {
-        return coreCompetency;
+    public int getCoreCompetencyId() {
+        return coreCompetencyId;
     }
 
-    public void setCoreCompetency(CoreCompetency coreCompetency) {
-        this.coreCompetency = coreCompetency;
+    public void setCoreCompetencyId(int coreCompetencyId) {
+        this.coreCompetencyId = coreCompetencyId;
     }
 
-    public PositionType getPositionType() {
-        return positionType;
+    public int getPositionTypeId() {
+        return positionTypeId;
     }
 
-    public void setPositionType(PositionType positionType) {
-        this.positionType = positionType;
+    public void setPositionTypeId(int positionTypeId) {
+        this.positionTypeId = positionTypeId;
     }
 
     public ArrayList<Employer> getEmployers() {
