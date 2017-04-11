@@ -48,52 +48,17 @@ public class JobController {
             return "new-job";
         }
 
-        String newName = jobForm.getName();
-        int employerId = jobForm.getEmployerId();
-        int locationId = jobForm.getLocationId();
-        int positionTypeId = jobForm.getPositionTypeId();
-        int coreCompetencyId = jobForm.getCoreCompetencyId();
+        String name = jobForm.getName();
 
-        // Is there is a better way to initialize these placeholder objects? null?
-        String defaultVal = "default";
-        Employer newEmployer = new Employer(defaultVal);
-        Location newLocation = new Location(defaultVal);
-        PositionType newPositionType = new PositionType(defaultVal);
-        CoreCompetency newCoreCompetency = new CoreCompetency(defaultVal);
+        Employer employer = jobData.getEmployers().findById(jobForm.getEmployerId());
+        Location location = jobData.getLocations().findById(jobForm.getLocationId());
+        PositionType positionType = jobData.getPositionTypes().findById(jobForm.getPositionTypeId());
+        CoreCompetency coreCompetency = jobData.getCoreCompetencies().findById(jobForm.getCoreCompetencyId());
 
-        // Why can't I just declare & initialize object within the loop?
-        for(Employer employer: jobForm.getEmployers()) {
-            if (employer.getId() == jobForm.getEmployerId()) {
-                newEmployer = employer;
-                break;
-            }
-        }
-
-        for(Location location: jobForm.getLocations()) {
-            if (location.getId() == jobForm.getLocationId()) {
-                newLocation = location;
-                break;
-            }
-        }
-
-        for(PositionType positionType: jobForm.getPositionTypes()) {
-            if (positionType.getId() == jobForm.getPositionTypeId()) {
-                newPositionType = positionType;
-                break;
-            }
-        }
-
-        for(CoreCompetency coreCompetency: jobForm.getCoreCompetencies()) {
-            if (coreCompetency.getId() == jobForm.getCoreCompetencyId()) {
-                newCoreCompetency = coreCompetency;
-                break;
-            }
-        }
-
-        Job newJob = new Job(newName, newEmployer, newLocation, newPositionType, newCoreCompetency);
+        Job newJob = new Job(name, employer, location, positionType, coreCompetency);
         jobData.add(newJob);
 
         int newJobId = newJob.getId();
-        return "redirect:?id=" + newJobId;
+        return "redirect:/job?id=" + newJobId;
     }
 }
